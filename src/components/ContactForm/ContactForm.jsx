@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact, saveToLocalStorage } from '../../redux/contactsSlice';
+import { contactsActions } from '../../redux/contactsSlice';
 import { nanoid } from 'nanoid';
 import styles from './ContactForm.module.css';
 
@@ -61,9 +61,7 @@ const ContactForm = () => {
       number: number,
     };
 
-    dispatch(addContact(newContact));
-    dispatch(saveToLocalStorage());
-
+    dispatch(contactsActions.addContactAsync(newContact));
     setFormData({
       name: '',
       number: '',

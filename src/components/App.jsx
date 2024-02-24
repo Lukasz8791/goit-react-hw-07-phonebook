@@ -1,11 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setContacts,
-  addContact,
-  deleteContact,
-  setFilter,
-} from '../redux/contactsSlice';
+import { contactsActions } from '../redux/contactsSlice';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -22,7 +17,9 @@ const App = () => {
   useEffect(() => {
     const storedContacts = localStorage.getItem('contacts');
     if (storedContacts) {
-      dispatch(setContacts(JSON.parse(storedContacts)));
+      dispatch(contactsActions.fetchContacts(JSON.parse(storedContacts)));
+    } else {
+      dispatch(contactsActions.fetchContacts());
     }
   }, [dispatch]);
 
@@ -37,11 +34,11 @@ const App = () => {
   }, [handleBeforeUnload]);
 
   const handleAddContact = newContact => {
-    dispatch(addContact(newContact));
+    dispatch(contactsActions.addContactAsync(newContact));
   };
 
   const handleDeleteContact = id => {
-    dispatch(deleteContact(id));
+    dispatch(contactsActions.deleteContactAsync(id));
   };
 
   return (
@@ -49,7 +46,10 @@ const App = () => {
       <h1>Phonebook</h1>
       <ContactForm addContact={handleAddContact} />
       <h2>Contacts</h2>
-      <Filter filter={filter} setFilter={value => dispatch(setFilter(value))} />
+      <Filter
+        filter={filter}
+        setFilter={value => dispatch(contactsActions.setFilter(value))}
+      />
       <ContactList
         contacts={contacts}
         filter={filter}
