@@ -36,10 +36,15 @@ const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
     items: [],
-    status: 'idle', // idle, loading, succeeded, failed
+    status: 'idle',
     error: null,
+    filter: '',
   },
-  reducers: {},
+  reducers: {
+    setFilter: (state, action) => {
+      state.filter = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchContacts.pending, state => {
@@ -64,10 +69,13 @@ const contactsSlice = createSlice({
   },
 });
 
+export const { setFilter } = contactsSlice.actions;
+
 export const contactsActions = {
   fetchContacts,
   addContactAsync,
   deleteContactAsync,
+  setFilter,
 };
 
 export default contactsSlice.reducer;
