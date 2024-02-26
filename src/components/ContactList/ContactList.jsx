@@ -11,7 +11,7 @@ const ContactList = ({ contacts, filter, onDelete }) => {
         contact &&
         contact.name &&
         contact.name.toLowerCase().includes(filter.toLowerCase()) &&
-        contact.number
+        contact.phone
     );
 
   const displayedContacts = filter ? filteredContacts : contacts;
@@ -21,7 +21,7 @@ const ContactList = ({ contacts, filter, onDelete }) => {
       {displayedContacts &&
         displayedContacts.map(contact => (
           <li key={contact.id} className={styles.li}>
-            {contact && contact.name} - {contact && contact.number}
+            {contact && contact.name} - {contact && contact.phone}
             <button
               type="button"
               className={styles['delete-button']}

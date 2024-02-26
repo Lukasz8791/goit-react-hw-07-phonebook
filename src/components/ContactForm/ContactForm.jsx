@@ -10,28 +10,28 @@ const ContactForm = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    number: '',
+    phone: '',
     nameError: '',
-    numberError: '',
+    phoneError: '',
   });
 
-  const { name, number, nameError, numberError } = formData;
+  const { name, phone, nameError, phoneError } = formData;
 
   const handleSubmit = e => {
     e.preventDefault();
 
     const phoneRegExp = /^\+?[0-9\s()-]{7,}$/;
 
-    if (!phoneRegExp.test(number)) {
+    if (!phoneRegExp.test(phone)) {
       setFormData({
         ...formData,
-        numberError: 'Insert correct number',
+        phoneError: 'Insert correct number',
       });
       return;
     }
 
     const existingContactWithNumber = contacts.find(
-      contact => contact.number === number
+      contact => contact.phone === phone
     );
 
     if (existingContactWithNumber) {
@@ -58,15 +58,15 @@ const ContactForm = () => {
     const newContact = {
       id: nanoid(),
       name: name,
-      number: number,
+      phone: phone,
     };
 
     dispatch(contactsActions.addContactAsync(newContact));
     setFormData({
       name: '',
-      number: '',
+      phone: '',
       nameError: '',
-      numberError: '',
+      phoneError: '',
     });
   };
 
@@ -92,20 +92,18 @@ const ContactForm = () => {
         <input
           className={styles.input}
           type="tel"
-          name="number"
+          name="phone"
           required
-          value={number}
+          value={phone}
           onChange={e => {
             setFormData({
               ...formData,
-              number: e.target.value,
-              numberError: '',
+              phone: e.target.value,
+              phoneError: '',
             });
           }}
         />
-        {numberError && (
-          <p className={styles['error-message']}>{numberError}</p>
-        )}
+        {phoneError && <p className={styles['error-message']}>{phoneError}</p>}
       </label>
       <button className={styles.button} type="submit">
         Add Contact
